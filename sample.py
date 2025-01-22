@@ -11,11 +11,11 @@ from dotenv import load_dotenv
 #     AzureOpenAIEmbeddings,
 # )
 
-from logger_config import setup_logger, get_logger
+# from logger_config import setup_logger, get_logger
 
 # Configure logging
-setup_logger()
-logger = get_logger()
+# setup_logger()
+# logger = get_logger()
 
 load_dotenv()
 
@@ -36,11 +36,11 @@ async def run_task(task: str):
             )
         )
     except Exception as e:
-        logger.error(f"Error initializing browser: {e}")
+        print(f"Error initializing browser: {e}")
         return {"error": f"Error initializing browser: {e}"}
 
     try:
-        logger.info(f"Starting task: {task}")
+        print(f"Starting task: {task}")
         agent = Agent(
             task=task,
             llm=LLM,
@@ -51,21 +51,21 @@ async def run_task(task: str):
         )
         result = await agent.run()
         final_result = result.final_result()
-        logger.info(f"Task completed successfully: {final_result}")
-        logger.info(f"screenshots: {result.screenshots()}")
-        logger.info(f"model thoughts: {result.model_thoughts()}")
-        logger.info(f"action results: {result.action_results()}")
-        logger.info(f"is done: {result.is_done()}")
-        logger.info(f"has errors: {result.has_errors()}")
+        print(f"Task completed successfully: {final_result}")
+        print(f"screenshots: {result.screenshots()}")
+        print(f"model thoughts: {result.model_thoughts()}")
+        print(f"action results: {result.action_results()}")
+        print(f"is done: {result.is_done()}")
+        print(f"has errors: {result.has_errors()}")
         return final_result
     except Exception as e:
-        logger.error(f"Error running task: {e}")
+        print(f"Error running task: {e}")
         return {"error": str(e)}
     finally:
         try:
             await browser.close()
         except Exception as e:
-            logger.error(f"Error closing browser: {e}")
+            print(f"Error closing browser: {e}")
 
 """ async def main():
     agent = Agent(

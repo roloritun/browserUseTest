@@ -5,17 +5,17 @@ from browser_use.browser.context import BrowserContextConfig
 # import asyncio
 import uuid
 from dotenv import load_dotenv
-import logging
 
 # from langchain_openai import (
 #     AzureChatOpenAI,
 #     AzureOpenAIEmbeddings,
 # )
 
-from logger_config import configure_logging
+from logger_config import setup_logger, get_logger
 
 # Configure logging
-logger = configure_logging()
+setup_logger()
+logger = get_logger()
 
 load_dotenv()
 
@@ -30,7 +30,7 @@ async def run_task(task: str):
     try:
         browser = Browser(
             config=BrowserConfig(
-                headless=False,
+                headless=True,
                 disable_security=True,
                 new_context_config=browser_context_config,
             )
@@ -50,7 +50,7 @@ async def run_task(task: str):
             generate_gif=True,
         )
         result = await agent.run()
-        final_result = result
+        final_result = result.final_result()
         logger.info(f"Task completed successfully: {final_result}")
         logger.info(f"screenshots: {result.screenshots()}")
         logger.info(f"model thoughts: {result.model_thoughts()}")

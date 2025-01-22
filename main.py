@@ -2,14 +2,14 @@
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 import sample
-import logging
-from logger_config import configure_logging
+from logger_config import setup_logger, get_logger
 
 class Task(BaseModel):
     description: str = None
 
 # Configure logging
-logger = configure_logging()
+setup_logger()
+logger = get_logger()
 
 app=FastAPI()
 

@@ -1,0 +1,11 @@
+conversations
+recordings
+venv
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+agent_history.gif   
+app.log
+.DS_Store
+.env

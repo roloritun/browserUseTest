@@ -50,7 +50,7 @@ async def run_task(task: str):
             generate_gif=True,
         )
         result = await agent.run()
-        final_result = result.final_result()
+        final_result = result
         print(f"Task completed successfully: {final_result}")
         print(f"screenshots: {result.screenshots()}")
         print(f"model thoughts: {result.model_thoughts()}")

@@ -1,13 +1,14 @@
 from typing import Any, Optional, Type
 from langchain.tools import BaseTool
 from pydantic import BaseModel
-from browser_use import Agent, Browser, BrowserConfig
+from browser_use import Agent, AgentHistoryList, Browser, BrowserConfig
 from browser_use.browser.context import BrowserContextConfig
 from constants import MAX_STEPS
 import uuid
 
 from constants import MAX_STEPS
 from llm_manager import LLM
+from pprint import pprint
 
 
 class BrowseUseTool(BaseTool):
@@ -43,9 +44,33 @@ class BrowseUseTool(BaseTool):
                 browser=browser,
                 generate_gif=True,
             )
-            result = await agent.run(max_steps=MAX_STEPS)
+            result: AgentHistoryList = await agent.run(max_steps=MAX_STEPS)
             final_result = result.final_result()
-            print(f"Task completed successfully: {final_result}")
+
+            print('Final Result:')
+            pprint(result.final_result(), indent=4)
+
+            print('\nErrors:')
+            pprint(result.errors(), indent=4)
+
+            print('\nModel Outputs:')
+            pprint(result.model_outputs(), indent=4)
+
+            print('\nThoughts:')
+            pprint(result.model_thoughts(), indent=4) 
+
+            print('\nModel Actions:')
+            pprint(result.model_actions(), indent=4)
+
+            print('\nActions Names:')
+            pprint(result.action_names(), indent=4)
+
+            print("\nUrls:")
+            pprint(result.urls(), indent=4)
+
+            # print("\nScreenshots:")
+            # pprint(result.screenshots(), indent=4)
+
             return final_result
         except Exception as e:
             print(f"Error running task: {e}")

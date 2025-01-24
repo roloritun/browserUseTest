@@ -10,3 +10,4 @@ app.log
 .DS_Store
 .env
 logs/
+fonts/
